@@ -1,4 +1,4 @@
-﻿using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 
 namespace AbstractionIntroApp
 {
@@ -9,7 +9,9 @@ namespace AbstractionIntroApp
         {
             public string modelNumber = "Default";
 
-            public abstract string PrintMethod(); // Forces an override method when used
+            public abstract double Price { get; set; } 
+
+            public abstract string PrintMethod(); // Forces an override method when used. 
 
             public string CompanyInfo()
             {
@@ -20,9 +22,25 @@ namespace AbstractionIntroApp
         public class InkJet : Printer
         {
             public string modelType = "Hyper-Jet";
+            double price;
+
+            public override double Price {
+                get { return price; } 
+                set { // Checks the price. 
+                    if (price < 0) // If less than zero, set price to zero.
+                    {
+                        price = 0;
+                    }
+                    else // If else, set price to value. 
+                    {
+                        price = value;
+                    }
+                }
+            }
+
             public override string PrintMethod() // This override method must be implemented when inheriting from Printer class because of method abstraction. 
             {
-                return $"Model Type: {modelType}";
+                return $"{base.modelNumber}, {this.modelType}";
             }
         }
 
@@ -31,8 +49,9 @@ namespace AbstractionIntroApp
             InkJet inkJet = new InkJet();
             inkJet.modelNumber = "INKJ2341Y";
             inkJet.modelType = "Ink Jet Style Printer";
+            inkJet.Price = 100;
 
-            Console.WriteLine($"{inkJet.CompanyInfo()}\n{inkJet.modelNumber}, {inkJet.PrintMethod()}");
+            Console.WriteLine($"{inkJet.CompanyInfo()}\n{inkJet.modelNumber}, {inkJet.PrintMethod()}\n{inkJet.Price}");
 
 
             // Printer can't be instantiated because the class is abstracted. Code below will throw an error for that reason.
